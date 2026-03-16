@@ -23,7 +23,22 @@ To write and execute an Assembly Language Program for sorting data in Ascending 
 ## Program (Ascending order)
 
 ```asm
-
+ORG 0000H
+MOV R7,#4
+LOOP1:MOV R0,#40H
+MOV R6,#04
+LOOP: MOV A,@R0
+INC R0
+MOV 50H,@R0
+CJNE A,50H,NEXT
+SJMP DOWN
+NEXT:JNC DOWN
+MOV @R0,A
+DEC R0
+MOV @R0,50H
+DOWN:DJNZ R6,LOOP
+DJNZ R7,LOOP1
+END
 
 
 
@@ -49,7 +64,29 @@ To write and execute an Assembly Language Program for sorting data in Ascending 
 ## Program (Descending order)
 
 ```asm
+ORG 0000H
+MOV R7,#04H        ; Outer loop count
 
+LOOP1: MOV R0,#40H ; Starting address of numbers
+MOV R6,#04H        ; Inner loop count
+
+LOOP:  MOV A,@R0   ; Load first number
+INC R0
+MOV 50H,@R0        ; Store second number in 50H
+
+CJNE A,50H,NEXT    ; Compare A and next number
+SJMP DOWN
+
+NEXT: JC DOWN      ; If A < next, no swap (for descending)
+
+MOV @R0,A          ; Swap
+DEC R0
+MOV @R0,50H
+
+DOWN: DJNZ R6,LOOP
+DJNZ R7,LOOP1
+
+END
 
 
 
